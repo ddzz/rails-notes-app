@@ -1,0 +1,18 @@
+<% provide(:title, "Create New Note") %>
+<center><h1>Create New Note</h1></center>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for(:note, url: notes_path)do |f| %>
+
+      <%= f.label :title %>
+      <%= f.text_field :title, class: 'form-control' %>
+
+      <%= f.label :body %>
+      <%= f.text_area :body, class: 'form-control' %>
+      <br>
+      <%= f.submit "Save", class: "btn btn-primary" %>
+      <%= link_to "Cancel", root_path, class: "btn btn-danger" %>
+    <% end %>
+  </div>
+</div>

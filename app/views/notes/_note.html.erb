@@ -1,0 +1,13 @@
+<li id="note-<%= note.id %>">
+  <p>
+    <span class="title"><b><%= link_to "#{note.title}", note, id: "note" %></b></span>
+    <span class="timestamp">
+      (Created by <%= note.user.name %>, <%= note.created_at.strftime("%a %l:%M %p") %>)
+    </span>
+    <span class="edit">
+      <%= link_to "Edit", note, id: "note", class: "btn btn-primary" %>
+      <%= link_to "Delete", note, method: :delete, id: "delete_note", class: "btn btn-danger" %>
+    </span>
+    <div class="body"><%= note.body %></div>
+  </p>
+</li>
