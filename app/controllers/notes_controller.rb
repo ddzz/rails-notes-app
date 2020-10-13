@@ -1,6 +1,6 @@
 class NotesController < ApplicationController
   def show
-    @note = Note.find(params[:id])
+    @note = current_user.notes.find(params[:id])
   end
 
   def create

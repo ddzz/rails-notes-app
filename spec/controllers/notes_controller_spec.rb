@@ -5,6 +5,7 @@ RSpec.describe NotesController, type: :controller do
     @user = User.create!(name: "Test User", email: "test@example.com", password: "password", password_confirmation: "password")
     @note_1 = Note.create!(title: "First Note", body: "First Note Body", user_id: @user.id)
     @note_2 = Note.create!(title: "Second Note", body: "Second Note Body", user_id: @user.id)
+    allow_any_instance_of(described_class).to receive(:current_user).and_return(@user)
   end
 
   context "GET #show" do
@@ -89,7 +90,7 @@ RSpec.describe NotesController, type: :controller do
       allow_any_instance_of(described_class).to receive(:current_user).and_return(@user)
     end
 
-    fit "deletes the given Note" do
+    it "deletes the given Note" do
       delete :destroy, params: { id: @note_1.id }
 
       expect(Note.count).to eql(1)
