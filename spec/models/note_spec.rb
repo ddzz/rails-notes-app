@@ -20,9 +20,18 @@ RSpec.describe Note, type: :model do
       expect(note).to be_valid
     end
 
-    it "uses the body for the title if no title is present" do
+    it "uses the body for the title if no title is present for a new Note" do
       user = User.create(name: "Test User", email: "test@example.com", password: "password", password_confirmation: "password")
       note = Note.create(body: "Long Test Body", user_id: user.id)
+
+      expect(note).to be_valid
+      expect(note.title).to eql(note.body)
+    end
+
+    it "uses the body for the title if no title is present for an updated Note" do
+      user = User.create(name: "Test User", email: "test@example.com", password: "password", password_confirmation: "password")
+      note = Note.create(title: "Test Title", body: "Long Test Body", user_id: user.id)
+      note.update(title: "")
 
       expect(note).to be_valid
       expect(note.title).to eql(note.body)

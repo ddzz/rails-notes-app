@@ -9,7 +9,7 @@ RSpec.describe SessionsController, type: :controller do
 
       expect(response.status).to eql(302)
       expect(response.redirect?).to be_truthy
-      expect(response.redirect_url).to include("users/#{@test_user.id}")
+      expect(response.redirect_url).to end_with("users/#{@test_user.id}")
     end
 
     it "renders the login page when the user is not logged in" do
@@ -29,7 +29,7 @@ RSpec.describe SessionsController, type: :controller do
       post :create, params: { session: {email: "test@example.com", password: "password"} }
 
       expect(session[:user_id]).to eql(@user.id)
-      expect(response.redirect_url).to include("users/#{@user.id}")
+      expect(response.redirect_url).to end_with("users/#{@user.id}")
     end
 
     it "does not create a New note when parameters are invalid" do

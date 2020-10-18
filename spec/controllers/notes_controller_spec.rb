@@ -16,8 +16,13 @@ RSpec.describe NotesController, type: :controller do
       expect(assigns(:note)).to eql(@note_1)
     end
 
-    it "raises error when Note ID is invalid" do
-      expect { get :show, params: { id: 1369 } }.to raise_error(ActiveRecord::RecordNotFound)
+    it "redirects when Note ID is invalid" do
+      get :show, params: { id: 1369 }
+
+      expect(response.status).to eql(302)
+      expect(assigns(:note)).to eql(nil)
+      expect(flash[:danger]).to match(/Note does not exist./)
+      expect(response.redirect_url).to end_with("/notes")
     end
   end
 
@@ -29,8 +34,34 @@ RSpec.describe NotesController, type: :controller do
       expect(assigns(:note)).to eql(@note_1)
     end
 
+    it "redirects when Note ID is invalid" do
+      get :edit, params: { id: 1369 }
+
+      expect(response.status).to eql(302)
+      expect(assigns(:note)).to eql(nil)
+      expect(flash[:danger]).to match(/Note does not exist./)
+      expect(response.redirect_url).to end_with("/notes")
+    end
+  end
+
+  context "GET #index" do
+    it "returns all of the User's notes" do
+      get :index
+
+      expect(response.status).to eql(200)
+      expect(assigns(:user)).to eql(@user)
+      notes = assigns(:notes)
+      expect(notes.first).to eql(@note_2)
+      expect(notes.second).to eql(@note_1)
+    end
+
     it "raises error when Note ID is invalid" do
-      expect { get :show, params: { id: 1369 } }.to raise_error(ActiveRecord::RecordNotFound)
+      get :edit, params: { id: 1369 }
+
+      expect(response.status).to eql(302)
+      expect(assigns(:note)).to eql(nil)
+      expect(flash[:danger]).to match(/Note does not exist./)
+      expect(response.redirect_url).to end_with("/notes")
     end
   end
 
@@ -49,7 +80,7 @@ RSpec.describe NotesController, type: :controller do
       expect(response.redirect_url).to end_with("/notes")
     end
 
-    it "does not create a New note when parameters are invalid" do
+    it "does not create a new Note when parameters are invalid" do
       post :create, params: { note: {title: "Test Title that is too long for the 30 char limit", body: "Test Body"} }
 
       expect(Note.count).to eql(2)

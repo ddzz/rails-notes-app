@@ -2,13 +2,19 @@ class NotesController < ApplicationController
   before_action :check_user_logged_in
 
   def show
-    @note = current_user.notes.find(params[:id])
-    redirect_to notes_path if @note.nil?
+    @note = current_user.notes.find_by(id: params[:id])
+    if @note.nil?
+      flash[:danger] = "Note does not exist."
+      redirect_to notes_path
+    end
   end
 
   def edit
-    @note = current_user.notes.find(params[:id])
-    redirect_to notes_path if @note.nil?
+    @note = current_user.notes.find_by(id: params[:id])
+    if @note.nil?
+      flash[:danger] = "Note does not exist."
+      redirect_to notes_path
+    end
   end
 
   def index
@@ -29,7 +35,7 @@ class NotesController < ApplicationController
 
   def update
     @note = current_user.notes.find(params[:id])
-    if @note.update_attributes(note_params)
+    if @note.update(note_params)
       if email_params.present?
         NoteMailer.note_email(@note, email_params).deliver_now
         flash[:success] = "Note updated and emailed to #{email_params}!"
