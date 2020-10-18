@@ -5,8 +5,8 @@
   * Clone this repo.
   * Run `bundle install`.
   * Run rake tasks to create the database (`db:create`, `db:migrate`).
-  * Open a Rails console and create a `User` account.
   * Run `bundle exec rails server`.
+  * Create a new user account.
   * Start taking notes!
 
 ## Notes
