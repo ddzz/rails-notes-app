@@ -1,6 +1,19 @@
 class NotesController < ApplicationController
+  before_action :check_user_logged_in
+
   def show
     @note = current_user.notes.find(params[:id])
+    redirect_to notes_path if @note.nil?
+  end
+
+  def edit
+    @note = current_user.notes.find(params[:id])
+    redirect_to notes_path if @note.nil?
+  end
+
+  def index
+    @user = current_user
+    @notes = current_user.notes.all
   end
 
   def create
@@ -11,7 +24,7 @@ class NotesController < ApplicationController
       flash[:danger] = "Note not created. Please create a valid note."
     end
 
-    redirect_to current_user
+    redirect_to notes_path
   end
 
   def update
@@ -27,7 +40,7 @@ class NotesController < ApplicationController
       flash[:danger] = "Note not updated. Please try again."
     end
 
-    redirect_to current_user
+    redirect_to notes_path
   end
 
   def destroy
@@ -38,10 +51,17 @@ class NotesController < ApplicationController
       flash[:danger] = "Note not deleted. Please try again."
     end
 
-    redirect_to current_user
+    redirect_to notes_path
   end
 
   private
+
+  def check_user_logged_in
+    if !logged_in?
+      flash[:danger] = "Please log in."
+      redirect_to login_url
+    end
+  end
 
   def note_params
     params.require(:note).permit(:title, :body)

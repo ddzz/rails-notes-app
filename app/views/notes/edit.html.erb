@@ -1,18 +1,25 @@
-<% provide(:title, "Create New Note") %>
-<center><h1>Create New Note</h1></center>
+<% provide(:title, "Edit Note") %>
+<center><h1>Edit note</h1></center>
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <%= form_for(:note, url: notes_path)do |f| %>
+    <%= form_for @note, url: {action: "update"} do |f| %>
 
       <%= f.label :title %>
       <%= f.text_field :title, class: 'form-control' %>
 
       <%= f.label :body %>
       <%= f.text_area :body, class: 'form-control' %>
+
+      <br>
+      <br>
+      <%= f.label "Optional: Enter an email address to email this note" %>
+      <%= f.email_field :email_address, class: 'form-control' %>
       <br>
       <%= f.submit "Save", class: "btn btn-primary" %>
       <%= link_to "Cancel", notes_path, class: "btn btn-danger" %>
     <% end %>
+
   </div>
 </div>
+<br>

@@ -8,7 +8,7 @@ gem 'puma', '4.3.5'
 gem 'webpacker', '4.2.2'
 gem 'turbolinks', '5.2.1'
 gem 'jbuilder', '2.10.0'
-gem 'bootsnap',       '1.4.6', require: false
+gem 'bootsnap', '1.4.6', require: false
 gem 'pry'
 
 group :development, :test do
@@ -18,8 +18,8 @@ group :development, :test do
 end
 
 group :development do
-  gem 'listen',                '3.2.1'
-  gem 'spring',                '2.1.0'
+  gem 'listen', '3.2.1'
+  gem 'spring', '2.1.0'
   gem 'spring-watcher-listen', '2.0.1'
 end
 
